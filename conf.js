@@ -12,15 +12,30 @@ exports.config =  {
             chromeOptions: {
                 args: ['disable-infobars', 'no-sandbox', 'start-maximized', 'test-type=browser', 'disable-notifications', 'incognito', 'disable-application-cache'],
             },
-            specs: ['features/test1.feature']
+            specs: ['features/test1.feature'],
+
         }
     ],
 
     cucumberOpts: {
-        require: ['step-definitions/*.js', 'support/hooks.js']
-    },
+        require: ['step-definitions/*.js', 'support/hooks.js'],
+        keepAlive: false,
+        format: ['json:reports/json/results.json', 'progress'],
+        strict: true,
+
+},
 
     onComplete: function () {
         browser.quit();
-    }
+    },
+    plugins: [{
+        package: 'protractor-multiple-cucumber-html-reporter-plugin',
+        options: {
+            automaticallyGenerateReport: true,
+            displayDuration: true,
+            durationInMS: true,
+            saveCollectedJSON: true
+        }
+    }]
+
 };
